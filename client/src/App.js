@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import {
+    Route,
+    NavLink,
+    HashRouter
+} from "react-router-dom";
 
 const App = () => {
-    const [data, setData] = useState('loading...');
-
-    useEffect(() => {
-        fetch('api/chatData')
-        .then(res => res.json())
-        .then(res => res.response)
-        .then(data => {
-            setData(data[0].message);
-        });
-    }, []);
-
-    return <p>Info: {data}</p>;
+    return (
+        <div></div>
+    )
 }
 
 export default App;
