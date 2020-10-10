@@ -1,9 +1,12 @@
 //Packages
+require('dotenv').config();
+
 const express = require('express');
 const { MongoClient, ObjectId } = require('mongodb');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { mongoURI } = require('./config/keys');
 
 //Router init
@@ -83,21 +86,30 @@ router.post('/login', async (req, res, next) => {
 
         const existingUser = await searchCursor.toArray();
 
-        if(existingUser.length === 0)
-            throw new Error('Bad e-mail or password');
+        if(existingUser.length === 0) {
+            const error = new Error('Bad e-mail or password');
+            error.status = 404;
+            throw error;
+        }
 
         if(!bcrypt.compareSync(password, existingUser[0].password))
             throw new Error('Wrong password');
 
-        res.status(200).send({id: existingUser[0]._id});
+        user = {
+            id: existingUser[0]._id
+        }
+
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+
+        res.status(200).send({accessToken});
     }
     catch (err) {
         next(err);
     }
 });
 
-router.get('/user/:id', async (req, res, next) => {
-    const { id } = req.params;
+router.get('/user', authenticateToken, async (req, res, next) => {
+    const { id } = req.user;
 
     try {
         if(id.length != 12 && id.length != 24) {
@@ -126,9 +138,9 @@ router.get('/user/:id', async (req, res, next) => {
     }
 });
 
-router.put('/user/:id', async (req, res, next) => {
+router.put('/user', authenticateToken, async (req, res, next) => {
     const { body } = req;
-    const { id } = req.params;
+    const { id } = req.user;
 
     try {
         if(id.length != 12 && id.length != 24) {
@@ -160,6 +172,17 @@ router.use((err, req, res, next) => {
     req.client.close();
 });
 
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if(token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if(err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    })
+};
+
 //Export
 module.exports = router;
-
