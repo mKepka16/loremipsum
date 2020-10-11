@@ -1,6 +1,4 @@
 import React from "react";
-import "./login.css";
-import "./Register";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -10,26 +8,15 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
-import PersonIcon from "@material-ui/icons/Person";
 
-function validateEmail(email, result) {
-  const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  result = regrEx.test(String(email).toLowerCase());
-  return !result;
-}
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      errorEmail: validateEmail(),
-    };
-  }
+
 
   render() {
     return (
       <div>
-        <Grid container className="login" alignItems="center">
+        <Grid container alignItems="center">
           <Grid item xs={3}></Grid>
           <Grid item xs={6}>
             <Card>
@@ -43,7 +30,7 @@ class Login extends React.Component {
                         color="textSecondary"
                       >
                         <PersonIcon fontSize="inherit" />
-                        Zaloguj się
+                        Zarejestruj SIę
                       </Typography>
                     }
                   ></CardHeader>
@@ -83,7 +70,7 @@ class Login extends React.Component {
               <CardActions>
                 <Grid item xs={6}>
                   <Typography align="right">
-                    <Button variant="contained" color="primary" onClick="">
+                    <Button variant="contained" color="primary">
                       Zarejestruj
                     </Button>
                   </Typography>
