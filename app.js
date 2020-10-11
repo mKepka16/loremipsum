@@ -8,12 +8,16 @@ const morgan = require('morgan');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { mongoURI } = require('./config/keys');
+const fileUpload = require('express-fileupload');
+//const path = require('path');
+//const multer = require('multer');
 
 //Router init
 const router = express.Router();
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(morgan('dev'));
+router.use(fileUpload());
 
 //Routes
 router.use(async (req, res, next) => {
@@ -183,6 +187,32 @@ function authenticateToken(req, res, next) {
         next();
     })
 };
+
+router.post('/upload', authenticateToken, (req, res, next) => {
+    const id = 'gdfgdfgdgdgd';
+
+    if(req.files == null) {
+        const error = new Error('No file uploaded');
+        error.status = 400;
+        next(error);
+    }
+    else {
+        const file = req.files.file;
+        const ext = file.name.split('.')[file.name.split('.').length - 1];
+
+        file.mv(`${__dirname}/profilePhotos/${id}.${ext}`, err => {
+            if(err) {
+                next(err);
+            }
+
+            res.json({
+                // fileName: file.name,
+                // filePath: `/uploads/${file.name}`
+                message: 'file uploaded'
+            })
+        });
+    }
+});
 
 //Export
 module.exports = router;
