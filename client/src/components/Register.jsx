@@ -29,7 +29,6 @@ class Login extends React.Component {
                         variant="h5"
                         color="textSecondary"
                       >
-                        <PersonIcon fontSize="inherit" />
                         Zarejestruj SIę
                       </Typography>
                     }
@@ -46,11 +45,7 @@ class Login extends React.Component {
                         error={this.state.errorEmail}
                         value={this.props.eMail}
                         helperText={"Podaj swój adres email"}
-                        onChange={(e) => {
-                          this.setState({
-                            errorEmail: validateEmail(e.currentTarget.value),
-                          });
-                        }}
+                       
                       />
                     </Typography>
                   </CardContent>
