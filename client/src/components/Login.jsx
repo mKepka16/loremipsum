@@ -11,6 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import PersonIcon from "@material-ui/icons/Person";
+import PregnantWomanIcon from '@material-ui/icons/PregnantWoman';
 
 function validateEmail(email, result) {
   const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -83,7 +84,9 @@ class Login extends React.Component {
               <CardActions>
                 <Grid item xs={6}>
                   <Typography align="right">
+                   
                     <Button variant="contained" color="primary" onClick="">
+                      <PregnantWomanIcon/>
                       Zarejestruj
                     </Button>
                   </Typography>
