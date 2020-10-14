@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import auth from '../utilities/auth';
 import "./register.css";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -21,13 +24,14 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
+
 function validateEmail(email) {
   const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const result = regrEx.test(String(email).toLowerCase());
   return !result;
 }
 
-const Register = () => {
+const Register = props => {
   const [errorEmail, setErrorEmail] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -36,7 +40,37 @@ const Register = () => {
   const [age, setAge] = useState('');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState('data123');
+  const [message, setMessage] = useState(''); //error message
+
+  const register = () => {
+    axios
+      .post('api/register', 
+        {
+          login,
+          password,
+          date,
+          firstName,
+          lastName,
+          age,
+          height,
+          weight
+        }, 
+        {
+          headers: {
+              'Authorization': `Bearer ${Cookies.get('token')}`
+          }
+      })
+      .then(res => { 
+        auth.logout(() => {
+          props.history.push("/");
+        }) 
+      })
+      .catch(err => {
+        console.log(err);
+        // setMessage(err.response.data.error.message);
+      });
+  }
 
   return (
     <div>
@@ -100,8 +134,8 @@ const Register = () => {
                           id="date-picker-dialog"
                           label="Rozpoczęcie ciąży"
                           format="MM/dd/yyyy"
-                          value={date}
-                          onChange={e => setDate(e.target.value)}
+                          // value={date}
+                          // onChange={e => setDate(e.target.value)}
                           KeyboardButtonProps={{
                             "aria-label": "change date",
                           }}
@@ -247,7 +281,7 @@ const Register = () => {
             <CardActions>
               <Grid item xs={12}>
                 <Typography align="center">
-                  <Button variant="contained" color="primary" onClick="">
+                  <Button variant="contained" color="primary" onClick={register}>
                     Zarejestruj
                   </Button>
                 </Typography>

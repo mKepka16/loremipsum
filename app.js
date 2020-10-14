@@ -32,7 +32,7 @@ router.use(async (req, res, next) => {
 
 router.post('/register', async (req, res, next) => {
     try {
-        const { login, password } = req.body;
+        const { login, password, firstName, lastName, age, height, weight, date } = req.body;
 
         const searchCursor = req.collection.find({
             eMail: login
@@ -55,13 +55,13 @@ router.post('/register', async (req, res, next) => {
         const newUser = {
             eMail: login,
             password: hashPasword,
-            pregnanyStart: null,
+            pregnanyStart: date,
             photo: 'default.jpg',
-            firstName: null,
-            lastName: null,
-            age: null,
-            height: null,
-            weight: null
+            firstName: firstName,
+            lastName: lastName,
+            age: age,
+            height: height,
+            weight: weight
         }
 
         const insertCursor = await req.collection.insertOne(newUser);
