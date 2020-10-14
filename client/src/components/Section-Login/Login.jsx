@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import auth from '../utilities/auth'
+import auth from '../../utilities/auth'
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import "./login.css";
+import "./css/login.css";
 import PersonIcon from "@material-ui/icons/Person";
 import PregnantWomanIcon from '@material-ui/icons/PregnantWoman';
 import {
@@ -22,6 +22,18 @@ function validateEmail(email) {
   const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const result = regrEx.test(String(email).toLowerCase());
   return !result;
+}
+
+function turnONButton(login, password, mail)
+{
+  
+  if (login === "" || password === "" || password.length < 7 || validateEmail(mail) === true)
+  {
+    return true
+  }
+  else{ 
+  return false
+  }
 }
 
 const Login = props => {
@@ -117,7 +129,7 @@ const Login = props => {
                   <Button 
                     variant="contained"
                     color="primary" 
-                    disabled={errorEmail}
+                    disabled={turnONButton(login, password, login)}
                     onClick={() => {
                       auth.login(login, password, 
                       () => {

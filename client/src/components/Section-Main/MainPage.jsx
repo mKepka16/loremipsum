@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import auth from '../utilities/auth';
-import UserContext from '../utilities/userContext';
+import auth from '../../utilities/auth';
+import UserContext from '../../utilities/userContext';
 
 const MainPage = props => {
     const {user, setUser} = useContext(UserContext);

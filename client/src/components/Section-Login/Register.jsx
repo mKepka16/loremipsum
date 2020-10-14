@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import auth from '../utilities/auth';
-import "./register.css";
+import axios from "axios";
+import Cookies from "js-cookie";
+import auth from "../../utilities/auth";
+import "./css/register.css";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -13,39 +13,80 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import PregnantWomanIcon from "@material-ui/icons/PregnantWoman";
-import MomentUtils from "@date-io/moment";
 import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-
+import DateFnsUtils from "@date-io/date-fns";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import { Link } from 'react-router-dom';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-
+import MenuItem from "@material-ui/core/MenuItem";
 
 function validateEmail(email) {
   const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const result = regrEx.test(String(email).toLowerCase());
-  return !result;
+  if (email === "") return result;
+  else return !result;
 }
 
-const Register = props => {
-  const [errorEmail, setErrorEmail] = useState(false);
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [age, setAge] = useState('');
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
-  const [date, setDate] = useState('data123');
-  const [message, setMessage] = useState(''); //error message
+function validateData(data) {
+  if (data === "") return true;
+  else return false;
+}
 
+function validatePassword(password) {
+  if (password === "" || password.length < 7) return true;
+  else return false;
+}
+
+function turnONButton(
+  login,
+  password,
+  errorEmail,
+  firstName,
+  lastName,
+  age,
+  height,
+  weight
+) {
+  if (
+    login === "" ||
+    validatePassword(password) === true ||
+    errorEmail === true ||
+    firstName === "" ||
+    lastName === "" ||
+    age === "" ||
+    height === "" ||
+    weight === ""
+  ) {
+    return true;
+  } else return false;
+}
+
+const Register = (props) => {
+  const [errorEmail, setErrorEmail] = useState(true);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [age, setAge] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+  const [date, setDate] = React.useState(new Date());
+  const handleDateChange = (date) => {
+    setDate(date);
+  };
+  const [message, setMessage] = useState(""); //error message
+
+  const wiek = [10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70];
+  const wzrost = [140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,  ];
+  const waga = [40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,  ];
   const register = () => {
     axios
-      .post('api/register', 
+      .post(
+        "api/register",
         {
           login,
           password,
@@ -54,23 +95,24 @@ const Register = props => {
           lastName,
           age,
           height,
-          weight
-        }, 
+          weight,
+        },
         {
           headers: {
-              'Authorization': `Bearer ${Cookies.get('token')}`
-          }
-      })
-      .then(res => { 
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      )
+      .then((res) => {
         auth.logout(() => {
           props.history.push("/");
-        }) 
+        });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         // setMessage(err.response.data.error.message);
       });
-  }
+  };
 
   return (
     <div>
@@ -104,8 +146,9 @@ const Register = props => {
                           label="Imię"
                           helperText="Imię"
                           variant="outlined"
+                          error={validateData(firstName)}
                           value={firstName}
-                          onChange={e => setFirstName(e.target.value)}
+                          onChange={(e) => setFirstName(e.target.value)}
                         />
                       </Typography>
 
@@ -118,29 +161,27 @@ const Register = props => {
                           variant="outlined"
                           error={errorEmail}
                           value={login}
-                          onChange={e => {
+                          onChange={(e) => {
                             setErrorEmail(validateEmail(e.currentTarget.value));
                             setLogin(e.currentTarget.value);
                           }}
                         />
                       </Typography>
-                      
-                      <Typography>
-                        
-                      </Typography>
-                      <MuiPickersUtilsProvider utils={MomentUtils}>
+                      <Typography align="center">
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                           margin="normal"
                           id="date-picker-dialog"
-                          label="Rozpoczęcie ciąży"
+                          label="Data ostatniej miesiączki"
                           format="MM/dd/yyyy"
-                          // value={date}
-                          // onChange={e => setDate(e.target.value)}
+                          value={date}
+                          onChange={handleDateChange}
                           KeyboardButtonProps={{
                             "aria-label": "change date",
                           }}
                         />
                       </MuiPickersUtilsProvider>
+                      </Typography>
                     </Grid>
 
                     <Grid item xs={6}>
@@ -152,7 +193,8 @@ const Register = props => {
                           helperText="Nazwisko"
                           variant="outlined"
                           value={lastName}
-                          onChange={e => setLastName(e.target.value)}
+                          error={validateData(lastName)}
+                          onChange={(e) => setLastName(e.target.value)}
                         />
                       </Typography>
 
@@ -162,14 +204,15 @@ const Register = props => {
                           label="Hasło"
                           type="password"
                           variant="outlined"
-                          helperText="Podaj swoje hasło"
+                          helperText="*Conajmniej 7 znaków"
+                          error={validatePassword(password)}
                           value={password}
-                          onChange={e => setPassword(e.target.value)}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                       </Typography>
 
                       <div className="inputs">
-                        <Typography>
+                        <Typography align="center">
                           <FormControl className="marg">
                             <InputLabel id="demo-simple-select-label">
                               Wiek
@@ -178,29 +221,14 @@ const Register = props => {
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
                               value={age}
-                              onChange={e => setAge(e.target.value)}
+                              error={validateData(age)}
+                              onChange={(e) => setAge(e.target.value)}
                             >
-                              <MenuItem value={15}>Ten</MenuItem>
-                              <MenuItem value={16}>Twenty</MenuItem>
-                              <MenuItem value={17}>Thirty</MenuItem>
-                              <MenuItem value={18}>Ten</MenuItem>
-                              <MenuItem value={19}>Twenty</MenuItem>
-                              <MenuItem value={20}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
+                              {wiek.map((value) => {
+                                return (
+                                  <MenuItem value={value}>{value}</MenuItem>
+                                );
+                              })}
                             </Select>
                           </FormControl>
 
@@ -212,29 +240,14 @@ const Register = props => {
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
                               value={height}
-                              onChange={e => setHeight(e.target.value)}
+                              error={validateData(height)}
+                              onChange={(e) => setHeight(e.target.value)}
                             >
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
+                              {wzrost.map((value) => {
+                                return (
+                                  <MenuItem value={value}>{value}</MenuItem>
+                                );
+                              })}
                             </Select>
                           </FormControl>
 
@@ -246,29 +259,14 @@ const Register = props => {
                               labelId="demo-simple-select-label"
                               id="demo-simple-select"
                               value={weight}
-                              onChange={e => setWeight(e.target.value)}
+                              error={validateData(weight)}
+                              onChange={(e) => setWeight(e.target.value)}
                             >
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
-                              <MenuItem value={10}>Ten</MenuItem>
-                              <MenuItem value={20}>Twenty</MenuItem>
-                              <MenuItem value={30}>Thirty</MenuItem>
+                              {waga.map((value) => {
+                                return (
+                                  <MenuItem value={value}>{value}</MenuItem>
+                                );
+                              })}
                             </Select>
                           </FormControl>
                         </Typography>
@@ -279,11 +277,37 @@ const Register = props => {
               </Grid>
             </CardContent>
             <CardActions>
-              <Grid item xs={12}>
-                <Typography align="center">
-                  <Button variant="contained" color="primary" onClick={register}>
+              <Grid item xs={6}>
+                <Typography align="right">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={register}
+                    disabled={turnONButton(
+                      login,
+                      password,
+                      errorEmail,
+                      firstName,
+                      lastName,
+                      age,
+                      height,
+                      weight
+                    )}
+                  >
                     Zarejestruj
                   </Button>
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography align="left">
+                  <Link to="/">
+                    <Button 
+                      variant="contained" 
+                      color="primary" 
+                    >
+                      Zaloguj się
+                    </Button>
+                  </Link>
                 </Typography>
               </Grid>
             </CardActions>
@@ -293,6 +317,6 @@ const Register = props => {
       </Grid>
     </div>
   );
-}
+};
 
 export default Register;
