@@ -1,27 +1,26 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
     Route,
-    BrowserRouter,
-    Link,
     Switch
 } from "react-router-dom";
 import FileUpload from './components/FileUpload/FileUpload';
 import Login from './components/Login/Login';
+import { UserContext } from './contexts/UserContext'
+import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
+import FileDownload from './components/FileDownload/FileDownload';
 
-function App () {
-    const [isLogged, setIsLogged] = useState(false);
+function App (props) {
+    const [user, setUser] = useState('No user');
 
     return (
-        <BrowserRouter>
+        <UserContext.Provider value={{ user, setUser }}>
             <Switch>
-                <Route exact path="/">
-                    <Login isLogged={isLogged} setIsLogged={setIsLogged}/>
-                </Route>
-                <Route exact path="/upload">
-                    <FileUpload isLogged={isLogged} setIsLogged={setIsLogged}/>
-                </Route>
+                <Route exact path="/" component={Login} />
+                <ProtectedRoute exact path="/upload" component={FileUpload} />
+                <ProtectedRoute exact path="/download" component={FileDownload} />
+                <Route path="*" component={() => "404 NOT FOUND"} />
             </Switch>
-        </BrowserRouter>
+        </UserContext.Provider>
     )
 }
 
