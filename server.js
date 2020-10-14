@@ -5,6 +5,7 @@ const path = require('path');
 //App init
 const app = express();
 const mainRouter = require('./app');
+app.use('/img', express.static('public'))
 app.use('/api', mainRouter);
 
 //Seting up deploy

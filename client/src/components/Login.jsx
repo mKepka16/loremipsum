@@ -1,111 +1,143 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import auth from '../utilities/auth'
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import "./login.css";
-import "./Register";
-import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
 import PersonIcon from "@material-ui/icons/Person";
 import PregnantWomanIcon from '@material-ui/icons/PregnantWoman';
+import {
+  Divider,
+  Grid,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Typography,
+  TextField,
+  Button
+} from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
-function validateEmail(email, result) {
+function validateEmail(email) {
   const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  result = regrEx.test(String(email).toLowerCase());
+  const result = regrEx.test(String(email).toLowerCase());
   return !result;
 }
 
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      errorEmail: validateEmail(),
-    };
-  }
+const Login = props => {
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
 
-  render() {
-    return (
-      <div>
-        <Grid container className="login" alignItems="center">
-          <Grid item xs={3}></Grid>
-          <Grid item xs={6}>
-            <Card>
-              <CardContent>
-                <Grid item xs={12}>
-                  <CardHeader
-                    title={
-                      <Typography
-                        align="center"
-                        variant="h5"
-                        color="textSecondary"
-                      >
-                        <PersonIcon fontSize="inherit" />
-                        Zaloguj się
-                      </Typography>
-                    }
-                  ></CardHeader>
+  useEffect(() => {
+    axios
+        .post('api/auth', {}, {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            }
+        })
+        .then(res => { 
+            props.history.push('/strona-glowna');
+        })
+        .catch(err => {});
+  }, [])
 
-                  <Divider light />
-                  <CardContent>
-                    <Typography align="center">
-                      <TextField
-                        id="outlined-error"
-                        label="Adress email"
-                        type="email"
-                        variant="outlined"
-                        error={this.state.errorEmail}
-                        value={this.props.eMail}
-                        helperText={"Podaj swój adres email"}
-                        onChange={(e) => {
-                          this.setState({
-                            errorEmail: validateEmail(e.currentTarget.value),
-                          });
-                        }}
-                      />
+  return (
+    <div>
+      <Grid container className="login" alignItems="center">
+        <Grid item xs={3}></Grid>
+        <Grid item xs={6}>
+          <Card>
+            <CardContent>
+              <Grid item xs={12}>
+                <CardHeader
+                  title={
+                    <Typography
+                      align="center"
+                      variant="h5"
+                      color="textSecondary"
+                    >
+                      <PersonIcon fontSize="inherit" />
+                      Zaloguj się
                     </Typography>
-                  </CardContent>
-                  <CardContent>
-                    <Typography align="center">
-                      <TextField
-                        id="outlined-error"
-                        label="Hasło"
-                        type="password"
-                        variant="outlined"
-                        helperText={"Podaj swoje hasło"}
-                      />
-                    </Typography>
-                  </CardContent>
-                </Grid>
-              </CardContent>
-              <CardActions>
-                <Grid item xs={6}>
-                  <Typography align="right">
-                   
-                    <Button variant="contained" color="primary" onClick="">
+                  }
+                ></CardHeader>
+
+                <Divider light />
+                <CardContent>
+                  <Typography align="center">
+                    <TextField
+                      id="outlined-error"
+                      label="Adress email"
+                      type="email"
+                      variant="outlined"
+                      error={errorEmail}
+                      value={login}
+                      helperText={"Podaj swój adres email"}
+                      onChange={(e) => {
+                        setErrorEmail(validateEmail(e.currentTarget.value));
+                        setLogin(e.currentTarget.value);
+                      }}
+                    />
+                  </Typography>
+                </CardContent>
+                <CardContent>
+                  <Typography align="center">
+                    <TextField
+                      id="outlined-error"
+                      label="Hasło"
+                      type="password"
+                      variant="outlined"
+                      helperText={"Podaj swoje hasło"}
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.currentTarget.value);
+                      }}
+                    />
+                  </Typography>
+                </CardContent>
+              </Grid>
+            </CardContent>
+            <CardActions>
+              <Grid item xs={6}>
+                <Typography align="right">
+                  <Link to="/rejestracja">
+                    <Button 
+                      variant="contained" 
+                      color="primary" 
+                    >
                       <PregnantWomanIcon/>
                       Zarejestruj
                     </Button>
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography align="left">
-                    <Button variant="contained" color="primary" disabled={this.state.errorEmail}>
-                      Zaloguj się
-                    </Button>
-                  </Typography>
-                </Grid>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={3}></Grid>
+                  </Link>
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography align="left">
+                  <Button 
+                    variant="contained"
+                    color="primary" 
+                    disabled={errorEmail}
+                    onClick={() => {
+                      auth.login(login, password, 
+                      () => {
+                          props.history.push("/strona-glowna");
+                      }, 
+                      err => {
+                          console.log(err.message);
+                      });
+                  }}>
+                    Zaloguj się
+                  </Button>
+                </Typography>
+              </Grid>
+            </CardActions>
+          </Card>
         </Grid>
-      </div>
-    );
-  }
+        <Grid item xs={3}></Grid>
+      </Grid>
+    </div>
+  );
 }
 
 export default Login;

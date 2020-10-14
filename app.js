@@ -8,12 +8,14 @@ const morgan = require('morgan');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { mongoURI } = require('./config/keys');
+const fileUpload = require('express-fileupload');
 
 //Router init
 const router = express.Router();
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(morgan('dev'));
+router.use(fileUpload());
 
 //Routes
 router.use(async (req, res, next) => {
@@ -23,7 +25,7 @@ router.use(async (req, res, next) => {
         req.collection = req.client.db().collection("users");
         next();
     }
-    catch(err) {
+    catch (err) {
         next(err);
     }
 });
@@ -42,7 +44,7 @@ router.post('/register', async (req, res, next) => {
 
         const existingUser = await searchCursor.toArray();
 
-        if(existingUser.length != 0) {
+        if (existingUser.length != 0) {
             const error = new Error('User is already registered');
             error.status = 404;
             throw error;
@@ -54,7 +56,7 @@ router.post('/register', async (req, res, next) => {
             eMail: login,
             password: hashPasword,
             pregnanyStart: null,
-            photo: null,
+            photo: 'default.jpg',
             firstName: null,
             lastName: null,
             age: null,
@@ -64,7 +66,7 @@ router.post('/register', async (req, res, next) => {
 
         const insertCursor = await req.collection.insertOne(newUser);
 
-        res.status(200).send({newUser});
+        res.status(200).send({ newUser });
     }
     catch (err) {
         next(err);
@@ -86,13 +88,13 @@ router.post('/login', async (req, res, next) => {
 
         const existingUser = await searchCursor.toArray();
 
-        if(existingUser.length === 0) {
+        if (existingUser.length === 0) {
             const error = new Error('Bad e-mail or password');
             error.status = 404;
             throw error;
         }
 
-        if(!bcrypt.compareSync(password, existingUser[0].password))
+        if (!bcrypt.compareSync(password, existingUser[0].password))
             throw new Error('Wrong password');
 
         user = {
@@ -101,7 +103,7 @@ router.post('/login', async (req, res, next) => {
 
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 
-        res.status(200).send({accessToken});
+        res.status(200).send({ accessToken });
     }
     catch (err) {
         next(err);
@@ -112,7 +114,7 @@ router.get('/user', authenticateToken, async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        if(id.length != 12 && id.length != 24) {
+        if (id.length != 12 && id.length != 24) {
             const error = new Error('Id has to be 12 or 24 chars long.');
             error.status = 404;
             throw error;
@@ -123,14 +125,14 @@ router.get('/user', authenticateToken, async (req, res, next) => {
         });
 
         const user = await searchCursor.toArray();
-        if(user.length === 0) {
+        if (user.length === 0) {
             const error = new Error('User not found.');
             error.status = 404;
             throw error;
         }
-            
 
-        res.status(200).json({user: user[0]});
+
+        res.status(200).json({ user: user[0] });
         req.client.close();
     }
     catch (err) {
@@ -143,7 +145,7 @@ router.put('/user', authenticateToken, async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        if(id.length != 12 && id.length != 24) {
+        if (id.length != 12 && id.length != 24) {
             const error = new Error('Id has to be 12 or 24 chars long.');
             error.status = 404;
             throw error;
@@ -154,8 +156,8 @@ router.put('/user', authenticateToken, async (req, res, next) => {
         }, {
             "$set": body
         });
-            
-        res.status(200).json({updatedContent: body});
+
+        res.status(200).json({ updatedContent: body });
         req.client.close();
     }
     catch (err) {
@@ -163,7 +165,113 @@ router.put('/user', authenticateToken, async (req, res, next) => {
     }
 });
 
+router.post('/auth', authenticateToken, (req, res, next) => {
+    res.sendStatus(200);
+});
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    })
+};
+
+function checkFileType(ext) {
+    //Allowed ext
+    const fileTypes = /jpeg|jpg|png/;
+
+    //Check ext
+    return fileTypes.test(ext);
+}
+
+router.post('/upload', authenticateToken, (req, res, next) => {
+    const id = req.user.id;
+
+    if (req.files == null) {
+        const error = new Error('No file uploaded');
+        error.status = 400;
+        next(error);
+    }
+    else {
+        const file = req.files.file;
+        const ext = file.name.split('.')[file.name.split('.').length - 1];
+
+        if (!checkFileType(ext)) {
+            const error = new Error('Bad file extension');
+            error.status = 400;
+            next(error);
+        }
+        else {
+            file.mv(`${__dirname}/public/${id}.${ext}`, async err => {
+                if (err) {
+                    next(err);
+                }
+
+                try {
+                    const updateCursor = await req.collection.updateOne({
+                        _id: ObjectId(id)
+                    }, {
+                        "$set": {
+                            photo: `${id}.${ext}`
+                        }
+                    });
+                }
+                catch (err) {
+                    next(err);
+                }
+
+                res.status(200).json({
+                    message: 'file uploaded'
+                })
+            });
+        }
+
+    }
+});
+
+router.get('/image', authenticateToken, async (req, res, next) => {
+    const { id } = req.user;
+
+    try {
+        if (id.length != 12 && id.length != 24) {
+            const error = new Error('Id has to be 12 or 24 chars long.');
+            error.status = 404;
+            throw error;
+        }
+
+        const searchCursor = req.collection.find({
+            _id: ObjectId(id)
+        }, {
+            projection: {
+                _id: 0,
+                photo: 1
+            }
+        });
+
+        const user = await searchCursor.toArray();
+        if (user.length === 0) {
+            const error = new Error('User not found.');
+            error.status = 404;
+            throw error;
+        }
+
+
+        res.status(200).json({ photo: user[0].photo });
+        req.client.close();
+    }
+    catch (err) {
+        next(err);
+    }
+});
+
+
 router.use((err, req, res, next) => {
+    console.log(err);
     res.status(err.status || 500).json({
         error: {
             message: err.message
@@ -171,18 +279,5 @@ router.use((err, req, res, next) => {
     });
     req.client.close();
 });
-
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if(token == null) return res.sendStatus(401);
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if(err) return res.sendStatus(403);
-        req.user = user;
-        next();
-    })
-};
-
 //Export
 module.exports = router;
