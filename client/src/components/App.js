@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Login from "./Section-Login/Login";
-import Register from "./Section-Login/Register";
-import MainPage from './Section-Main/MainPage';
+import Login from "./Login";
+import Register from "./Register";
+import MainPage from './MainPage';
 import {
     Route,
     Switch
 } from "react-router-dom";
-import { ProtectedRoute } from './ProtectedRoute';
+import { ProtectedRoute } from '../utilities/ProtectedRoute';
 import UserContext from '../utilities/userContext';
 
 const App = () => {
