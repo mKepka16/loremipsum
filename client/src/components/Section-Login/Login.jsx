@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import auth from '../../utilities/auth'
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import "./css/login.css";
 import PersonIcon from "@material-ui/icons/Person";
 import PregnantWomanIcon from '@material-ui/icons/PregnantWoman';
 import {
@@ -11,29 +10,18 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardHeader,
   Typography,
-  TextField,
-  Button
+  Button,
+  Box
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Header from '../Form/Header';
+import Controls from '../Form/Controls';
 
 function validateEmail(email) {
   const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const result = regrEx.test(String(email).toLowerCase());
   return !result;
-}
-
-function turnONButton(login, password, mail)
-{
-  
-  if (login === "" || password === "" || password.length < 7 || validateEmail(mail) === true)
-  {
-    return true
-  }
-  else{ 
-  return false
-  }
 }
 
 const Login = props => {
@@ -55,100 +43,87 @@ const Login = props => {
   }, [])
 
   return (
-    <div>
-      <Grid container className="login" alignItems="center">
-        <Grid item xs={3}></Grid>
-        <Grid item xs={6}>
+      <Grid container style={{
+        backgroundColor: '#51a7f781',
+        height: '100vh'
+      }} alignItems="center">
+        <Grid item xs={1} md={2} lg={3} />
+        <Grid item xs={10} md={8} lg={6}>
           <Card>
-            <CardContent>
-              <Grid item xs={12}>
-                <CardHeader
-                  title={
-                    <Typography
-                      align="center"
-                      variant="h5"
-                      color="textSecondary"
-                    >
+            <Box py={2}>
+                <Grid item xs={12}>
+                    <Header>
                       <PersonIcon fontSize="inherit" />
                       Zaloguj się
-                    </Typography>
-                  }
-                ></CardHeader>
+                    </Header>
 
-                <Divider light />
-                <CardContent>
-                  <Typography align="center">
-                    <TextField
-                      id="outlined-error"
-                      label="Adress email"
-                      type="email"
-                      variant="outlined"
-                      error={errorEmail}
+                  <Divider light />
+                  <CardContent>
+                    
+                    <Controls.TextInput 
+                      label="Email"
                       value={login}
+                      error={errorEmail}
                       helperText={"Podaj swój adres email"}
                       onChange={(e) => {
                         setErrorEmail(validateEmail(e.currentTarget.value));
                         setLogin(e.currentTarget.value);
                       }}
-                    />
-                  </Typography>
-                </CardContent>
-                <CardContent>
-                  <Typography align="center">
-                    <TextField
-                      id="outlined-error"
+                      required={false}
+                      my={2}/>
+
+                    <Controls.TextInput 
                       label="Hasło"
-                      type="password"
-                      variant="outlined"
-                      helperText={"Podaj swoje hasło"}
                       value={password}
+                      helperText={"Podaj swoje hasło"}
                       onChange={(e) => {
                         setPassword(e.currentTarget.value);
                       }}
-                    />
+                      required={false}
+                      my={2}/>
+
+                  </CardContent>
+                </Grid>
+              <CardActions>
+                <Grid item xs={6}>
+                  <Typography align="right">
+                    <Link to="/rejestracja">
+                      <Button 
+                        variant="contained" 
+                        color="primary" 
+                      >
+                        <PregnantWomanIcon/>
+                        Zarejestruj
+                      </Button>
+                    </Link>
                   </Typography>
-                </CardContent>
-              </Grid>
-            </CardContent>
-            <CardActions>
-              <Grid item xs={6}>
-                <Typography align="right">
-                  <Link to="/rejestracja">
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography align="left">
                     <Button 
-                      variant="contained" 
+                      variant="contained"
                       color="primary" 
-                    >
-                      <PregnantWomanIcon/>
-                      Zarejestruj
+                      disabled={errorEmail}
+                      onClick={() => {
+                        auth.login(login, password, 
+                        () => {
+                            props.history.push("/strona-glowna");
+                        }, 
+                        err => {
+                            console.log(err.message);
+                        });
+                    }}>
+                      Zaloguj się
                     </Button>
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography align="left">
-                  <Button 
-                    variant="contained"
-                    color="primary" 
-                    disabled={turnONButton(login, password, login)}
-                    onClick={() => {
-                      auth.login(login, password, 
-                      () => {
-                          props.history.push("/strona-glowna");
-                      }, 
-                      err => {
-                          console.log(err.message);
-                      });
-                  }}>
-                    Zaloguj się
-                  </Button>
-                </Typography>
-              </Grid>
-            </CardActions>
+                  </Typography>
+                </Grid>
+              </CardActions>
+            </Box>
           </Card>
         </Grid>
-        <Grid item xs={3}></Grid>
+        <Grid item xs={1} md={2} lg={3} />
       </Grid>
-    </div>
+
   );
 }
 

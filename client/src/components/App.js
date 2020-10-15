@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Login from "./Login";
-import Register from "./Register";
-import MainPage from './MainPage';
+import Login from "./Section-Login/Login";
+import Register from "./Section-Login/Register";
+import MainPage from './Section-Main/MainPage';
 import {
     Route,
     Switch
