@@ -13,6 +13,7 @@ import Controls from '../Form/Controls';
 import Header from '../Form/Header';
 import PregnantWomanIcon from "@material-ui/icons/PregnantWoman";
 import { Box } from "@material-ui/core";
+import './css/login.css';
 
 
 function validateEmail(email) {
@@ -71,10 +72,7 @@ const Register = props => {
 
   return (
     <Fragment>
-      <Grid container style={{
-        backgroundColor: '#51a7f781',
-        height: '100vh'
-      }} alignItems="center">
+      <Grid container alignItems="center" className="login">
         <Grid item xs={1} md={2} lg={3} ></Grid>
         <Grid item xs={10} md={8} lg={6}>
           <Card>

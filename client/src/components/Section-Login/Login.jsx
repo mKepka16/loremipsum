@@ -17,6 +17,7 @@ import {
 import { Link } from 'react-router-dom';
 import Header from '../Form/Header';
 import Controls from '../Form/Controls';
+import './css/login.css';
 
 function validateEmail(email) {
   const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -43,10 +44,7 @@ const Login = props => {
   }, [])
 
   return (
-      <Grid container style={{
-        backgroundColor: '#51a7f781',
-        height: '100vh'
-      }} alignItems="center">
+      <Grid container alignItems="center" className="login">
         <Grid item xs={1} md={2} lg={3} />
         <Grid item xs={10} md={8} lg={6}>
           <Card>
