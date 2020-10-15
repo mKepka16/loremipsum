@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { ProtectedRoute } from '../utilities/ProtectedRoute';
 import UserContext from '../utilities/userContext';
+import Calendary from "./Section-Calendar/Calendary";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -18,6 +19,7 @@ const App = () => {
           <Route exact path="/" component={Login} />
           <Route exact path="/rejestracja" component={Register} />
           <ProtectedRoute exact path="/strona-glowna" component={MainPage} />
+          <ProtectedRoute exact path="/kalendarz" component={Calendary} />
           <Route path="*" component={() => "404 NOT FOUND"} />
       </Switch>
     </UserContext.Provider>

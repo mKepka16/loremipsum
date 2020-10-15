@@ -17,6 +17,7 @@ import {
 import { Link } from 'react-router-dom';
 import Header from '../Form/Header';
 import Controls from '../Form/Controls';
+import "./css/login.css";
 
 function validateEmail(email) {
   const regrEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -74,6 +75,7 @@ const Login = props => {
 
                     <Controls.TextInput 
                       label="Hasło"
+                      type="password"
                       value={password}
                       helperText={"Podaj swoje hasło"}
                       onChange={(e) => {
@@ -103,11 +105,11 @@ const Login = props => {
                     <Button 
                       variant="contained"
                       color="primary" 
-                      disabled={errorEmail}
+                      //disabled={errorEmail}
                       onClick={() => {
                         auth.login(login, password, 
                         () => {
-                            props.history.push("/strona-glowna");
+                            props.history.push("/kalendarz");
                         }, 
                         err => {
                             console.log(err.message);
