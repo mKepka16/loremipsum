@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect, Route } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 export const ProtectedRoute = ({component: Component, ...rest}) => {
     const [aut, setAut] = useState(null);
@@ -10,7 +9,7 @@ export const ProtectedRoute = ({component: Component, ...rest}) => {
         axios
             .post('api/auth', {}, {
                 headers: {
-                    'Authorization': `Bearer ${Cookies.get('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             })
             .then(res => { setAut(true); })

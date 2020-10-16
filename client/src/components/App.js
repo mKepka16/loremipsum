@@ -8,6 +8,10 @@ import {
 } from "react-router-dom";
 import { ProtectedRoute } from '../utilities/ProtectedRoute';
 import UserContext from '../utilities/userContext';
+import Diet from "./Section-Main/Diet";
+import Calendar from "./Section-Main/Calendar";
+import Preferences from "./Section-Main/Preferences";
+import Q_A from "./Section-Main/Q_A";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -17,11 +21,16 @@ const App = () => {
       <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/rejestracja" component={Register} />
-          <ProtectedRoute exact path="/strona-glowna" component={MainPage} />
+          <ProtectedRoute exact path="/sledz-ciaze" component={MainPage} />
+          <ProtectedRoute exact path="/kalendarz" component={Calendar} />
+          <ProtectedRoute exact path="/pytania-i-odpowiedzi" component={Q_A} />
+          <ProtectedRoute exact path="/dieta" component={Diet} />
+          <ProtectedRoute exact path="/preferencje" component={Preferences} />
           <Route path="*" component={() => "404 NOT FOUND"} />
       </Switch>
     </UserContext.Provider>
   )
 }
+
 
 export default App;
