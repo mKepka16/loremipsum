@@ -2,10 +2,10 @@ import React from 'react';
 import MainLayout from './Partials/MainLayout';
 
 
-export default function MainPage(props) {
+export default function Calendar(props) {
     return (
         <MainLayout history={props.history}>
-            MainPage
+            Calendar
         </MainLayout>
     )
 }

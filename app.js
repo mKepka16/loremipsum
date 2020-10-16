@@ -56,7 +56,7 @@ router.post('/register', async (req, res, next) => {
             eMail: login,
             password: hashPasword,
             pregnanyStart: date,
-            photo: 'default.jpg',
+            photo: null,
             firstName: firstName,
             lastName: lastName,
             age: age,
@@ -122,6 +122,11 @@ router.get('/user', authenticateToken, async (req, res, next) => {
 
         const searchCursor = req.collection.find({
             _id: ObjectId(id)
+        }, {
+            projection: {
+                _id: 0,
+                password: 0
+            }
         });
 
         const user = await searchCursor.toArray();

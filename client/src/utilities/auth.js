@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 class Auth {
     constructor() {
@@ -13,7 +12,7 @@ class Auth {
         })
         .then(response => {
             const token = response.data.accessToken;
-            Cookies.set('token', token);
+            localStorage.setItem('token', token);
             this.isAuthenticated = true;
             resolve();
         })
@@ -23,7 +22,7 @@ class Auth {
     }
 
     logout(cb) {
-        Cookies.remove('token');
+        localStorage.removeItem('token');
         this.isAuthenticated = false;
         cb();
     }
