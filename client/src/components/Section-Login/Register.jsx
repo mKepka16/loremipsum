@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import auth from '../../utilities/auth';
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -56,7 +55,7 @@ const Register = props => {
         },
         {
           headers: {
-            'Authorization': `Bearer ${Cookies.get('token')}`
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         })
       .then(res => {

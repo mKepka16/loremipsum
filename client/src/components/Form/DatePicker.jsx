@@ -11,12 +11,6 @@ import { Box } from "@material-ui/core";
 export default function DatePicker(props) {
     const { name, label, value, onChange } = props;
 
-    const convertToDefEventPara = (name, value) => ({
-        target: {
-            name, value
-        }
-    });
-
     return (
         <Box 
             display="flex" 

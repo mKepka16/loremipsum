@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import auth from '../../utilities/auth'
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import PersonIcon from "@material-ui/icons/Person";
 import PregnantWomanIcon from '@material-ui/icons/PregnantWoman';
 import {
@@ -34,11 +33,11 @@ const Login = props => {
     axios
         .post('api/auth', {}, {
             headers: {
-                'Authorization': `Bearer ${Cookies.get('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         })
         .then(res => { 
-            props.history.push('/strona-glowna');
+            props.history.push('/sledz-ciaze');
         })
         .catch(err => {});
   }, [])
@@ -78,7 +77,8 @@ const Login = props => {
                         setPassword(e.currentTarget.value);
                       }}
                       required={false}
-                      my={2}/>
+                      my={2}
+                      type='password'/>
 
                   </CardContent>
                 </Grid>
@@ -105,7 +105,7 @@ const Login = props => {
                       onClick={() => {
                         auth.login(login, password, 
                         () => {
-                            props.history.push("/strona-glowna");
+                            props.history.push("/sledz-ciaze");
                         }, 
                         err => {
                             console.log(err.message);
