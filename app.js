@@ -124,7 +124,6 @@ router.get('/user', authenticateToken, async (req, res, next) => {
             _id: ObjectId(id)
         }, {
             projection: {
-                _id: 0,
                 password: 0
             }
         });

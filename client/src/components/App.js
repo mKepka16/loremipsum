@@ -20,12 +20,12 @@ const App = () => {
     <UserContext.Provider value={{ user, setUser }}>
       <Switch>
           <Route exact path="/" component={Login} />
-          <Route exact path="/rejestracja" component={Register} />
-          <ProtectedRoute exact path="/sledz-ciaze" component={MainPage} />
-          <ProtectedRoute exact path="/kalendarz" component={Calendar} />
-          <ProtectedRoute exact path="/pytania-i-odpowiedzi" component={Q_A} />
-          <ProtectedRoute exact path="/dieta" component={Diet} />
-          <ProtectedRoute exact path="/preferencje" component={Preferences} />
+          <Route path="/rejestracja" component={Register} />
+          <ProtectedRoute path="/sledz-ciaze" component={MainPage} />
+          <ProtectedRoute path="/kalendarz" component={Calendar} />
+          <ProtectedRoute path="/pytania-i-odpowiedzi" component={Q_A} />
+          <ProtectedRoute path="/dieta" component={Diet} />
+          <ProtectedRoute path="/preferencje" component={Preferences} />
           <Route path="*" component={() => "404 NOT FOUND"} />
       </Switch>
     </UserContext.Provider>
