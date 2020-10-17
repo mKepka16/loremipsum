@@ -55,7 +55,7 @@ router.post('/register', async (req, res, next) => {
         const newUser = {
             eMail: login,
             password: hashPasword,
-            pregnanyStart: date,
+            pregnancyStart: date,
             photo: null,
             firstName: firstName,
             lastName: lastName,
