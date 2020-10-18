@@ -8,7 +8,6 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import './css/main-page.css';
 
-
 export default function MainPage(props) {
     const {user, setUser} = useContext(UserContext);
     const [week, setWeek] = useState(null);
