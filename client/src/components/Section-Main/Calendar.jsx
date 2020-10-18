@@ -8,6 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import "moment/locale/pl";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 const localizer = momentLocalizer(moment);
 var cosTamZBackendu = "2020-10-17T10:00:00.000Z";
@@ -35,18 +36,34 @@ var events = [
     start: moment().add(10, "days").toDate(),
     end: moment().add(14, "days").toDate(),
     title: "Pierwsze USG",
-    description: "Praesent vitae felis enim. Sed diam ante, lacinia a metus a, efficitur blandit turpis. Aliquam justo libero, consequat id nunc a, molestie ultrices metus. Vivamus cursus, arcu nec rutrum pulvinar, nibh ante molestie tellus, tristique dictum ante nibh nec ipsum. Maecenas iaculis suscipit ante nec commodo.",
+    description:
+      "Praesent vitae felis enim. Sed diam ante, lacinia a metus a, efficitur blandit turpis. Aliquam justo libero, consequat id nunc a, molestie ultrices metus. Vivamus cursus, arcu nec rutrum pulvinar, nibh ante molestie tellus, tristique dictum ante nibh nec ipsum. Maecenas iaculis suscipit ante nec commodo.",
     color: "green",
   },
   {
     start: moment().add(2, "days").toDate(),
     end: moment().add(5, "days").toDate(),
     title: "Badanie krwi",
-    description: "Nullam ac lectus gravida, vestibulum nunc quis, eleifend arcu. Phasellus mollis a nisl nec placerat. Sed id purus ac turpis varius posuere. Suspendisse semper nibh elit, quis bibendum metus placerat egestas. Nunc eu elementum felis. Duis quis quam ornare, bibendum est vitae, eleifend nunc",
+    description:
+      "Nullam ac lectus gravida, vestibulum nunc quis, eleifend arcu. Phasellus mollis a nisl nec placerat. Sed id purus ac turpis varius posuere. Suspendisse semper nibh elit, quis bibendum metus placerat egestas. Nunc eu elementum felis. Duis quis quam ornare, bibendum est vitae, eleifend nunc",
     color: "yellow",
   },
 ];
-
+const messages = {
+  allDay: "Wszystkie dni",
+  previous: "<",
+  next: ">",
+  today: "Dzisiaj",
+  month: "Miesiąc",
+  week: "Tydzień",
+  day: "Dzień",
+  agenda: "Agenda",
+  date: "Data",
+  time: "Czas",
+  event: "Wydarzenie",
+  Mon: "Poniedziałek",
+  showMore: (total) => `+ Pokaż więcej (${total})`,
+};
 export default function Calendary(props) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -80,6 +97,7 @@ export default function Calendary(props) {
         events={events}
         style={{ height: "90vh" }}
         eventPropGetter={color}
+        messages={messages}
         onSelectEvent={(event) =>
           handleClickOpen(event.title, event.description)
         }
