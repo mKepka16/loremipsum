@@ -38,6 +38,7 @@ const styles = theme => ({
     }
 });
 
+
 function Preferences(props) {
     const {user, setUser} = useContext(UserContext);
     const { classes } = props;
