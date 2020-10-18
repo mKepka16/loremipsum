@@ -55,7 +55,7 @@ router.post('/register', async (req, res, next) => {
         const newUser = {
             eMail: login,
             password: hashPasword,
-            pregnanyStart: date,
+            pregnancyStart: date,
             photo: null,
             firstName: firstName,
             lastName: lastName,
@@ -124,7 +124,6 @@ router.get('/user', authenticateToken, async (req, res, next) => {
             _id: ObjectId(id)
         }, {
             projection: {
-                _id: 0,
                 password: 0
             }
         });

@@ -86,7 +86,6 @@ const MainLayout = props => {
     }
 
     useEffect(() => {
-        if(user) return; 
         Axios
             .get('/api/user', {
                 headers: {
