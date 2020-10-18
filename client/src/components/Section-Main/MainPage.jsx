@@ -44,7 +44,7 @@ export default function MainPage(props) {
                     </Grid>
                     <Grid item xs={10} lg={8}>
                         <Box width={1} display="flex" justifyContent='center'>
-                            <img src={`./photos/${data[week].photo}`} alt="" className="svg"/>
+                        <img src={`./photos/${data[3].photo}`} alt="" className="svg"/>
                         </Box>
                     </Grid>
                     <Grid item xs={1} lg={2}>
@@ -66,7 +66,7 @@ export default function MainPage(props) {
                         <Divider variant="middle" className="divider"/>
 
                         <Typography align="center" className="p">
-                            { data[week].childInfo }
+                            { data[3].childInfo }
                         </Typography>
                     </Grid>
                     <Grid item xs={1} sm={0} md={3} lg={4}/>
@@ -82,7 +82,7 @@ export default function MainPage(props) {
                         <Divider variant="middle" className="divider"/>
 
                         <Typography align="center" className="p">
-                            { data[week].symptoms }
+                            { data[3].symptoms }
                         </Typography>
                     </Grid>
                     <Grid item xs={1} sm={0} md={3} lg={4}/>
