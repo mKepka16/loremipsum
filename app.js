@@ -46,7 +46,7 @@ router.post('/register', async (req, res, next) => {
 
         if (existingUser.length != 0) {
             const error = new Error('User is already registered');
-            error.status = 404;
+            error.status = 400;
             throw error;
         }
 
@@ -66,7 +66,7 @@ router.post('/register', async (req, res, next) => {
 
         const insertCursor = await req.collection.insertOne(newUser);
 
-        res.status(200).send({ newUser });
+        res.status(201).send({ newUser });
     }
     catch (err) {
         next(err);
@@ -114,11 +114,6 @@ router.get('/user', authenticateToken, async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        if (id.length != 12 && id.length != 24) {
-            const error = new Error('Id has to be 12 or 24 chars long.');
-            error.status = 404;
-            throw error;
-        }
 
         const searchCursor = req.collection.find({
             _id: ObjectId(id)
@@ -149,12 +144,6 @@ router.put('/user', authenticateToken, async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        if (id.length != 12 && id.length != 24) {
-            const error = new Error('Id has to be 12 or 24 chars long.');
-            error.status = 404;
-            throw error;
-        }
-
         const updateCursor = await req.collection.updateOne({
             _id: ObjectId(id)
         }, {
@@ -242,12 +231,6 @@ router.get('/image', authenticateToken, async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        if (id.length != 12 && id.length != 24) {
-            const error = new Error('Id has to be 12 or 24 chars long.');
-            error.status = 404;
-            throw error;
-        }
-
         const searchCursor = req.collection.find({
             _id: ObjectId(id)
         }, {
