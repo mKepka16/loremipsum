@@ -9,7 +9,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import './css/main-page.css';
 
 export default function MainPage(props) {
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const [week, setWeek] = useState(null);
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export default function MainPage(props) {
                 </Grid>
 
                 <Grid container className="article">
-                    <Grid item xs={1} sm={0} md={3} lg={4}/>
+                    <Grid item xs={1} sm={false} md={3} lg={4}/>
                     <Grid item xs={10} sm={12} md={6} lg={4}>
                         <Typography variant="h5" align="center">
                             Informacje
@@ -69,11 +69,11 @@ export default function MainPage(props) {
                             { data[week].childInfo }
                         </Typography>
                     </Grid>
-                    <Grid item xs={1} sm={0} md={3} lg={4}/>
+                    <Grid item xs={1} sm={false} md={3} lg={4}/>
                 </Grid>
 
                 <Grid container className="article">
-                    <Grid item xs={1} sm={0} md={3} lg={4}/>
+                    <Grid item xs={1} sm={false} md={3} lg={4}/>
                     <Grid item xs={10} sm={12} md={6} lg={4}>
                         <Typography variant="h5" align="center">
                             Symptomy
@@ -85,7 +85,7 @@ export default function MainPage(props) {
                             { data[week].symptoms }
                         </Typography>
                     </Grid>
-                    <Grid item xs={1} sm={0} md={3} lg={4}/>
+                    <Grid item xs={1} sm={false} md={3} lg={4}/>
                 </Grid>
             </Fragment>}
             

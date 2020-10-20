@@ -11,8 +11,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import "./css/diet.css";
-function createData(witamina, dawka4, dawka, funkcja) {
-  return { witamina, dawka4, dawka, funkcja };
+function createData(vitamin, dose4, dose, func) {
+  return { vitamin, dose4, dose, func };
 }
 
 const rows = [
@@ -32,8 +32,8 @@ export default function Diet(props) {
   return (
     <MainLayout history={props.history}>
       <Grid container spacing={3}>
-        {diet.map((diet) => (
-          <Diet_details title={diet.title} description={diet.description} />
+        {diet.map((diet, index) => (
+          <Diet_details key={index} title={diet.title} description={diet.description} />
         ))}
       </Grid>
       <TableContainer component={Paper} className="all">
@@ -49,14 +49,14 @@ export default function Diet(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.witamina}>
+            {rows.map((row, index) => (
+              <TableRow key={index}>
                 <TableCell component="th" scope="row">
-                  {row.witamina}
+                  {row.vitamin}
                 </TableCell>
-                <TableCell align="right">{row.dawka4}</TableCell>
-                <TableCell align="right">{row.dawka}</TableCell>
-                <TableCell align="center">{row.funkcja}</TableCell>
+                <TableCell align="right">{row.dose4}</TableCell>
+                <TableCell align="right">{row.dose}</TableCell>
+                <TableCell align="center">{row.func}</TableCell>
               </TableRow>
             ))}
           </TableBody>

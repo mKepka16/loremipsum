@@ -94,8 +94,11 @@ router.post('/login', async (req, res, next) => {
             throw error;
         }
 
-        if (!bcrypt.compareSync(password, existingUser[0].password))
-            throw new Error('Wrong password');
+        if (!bcrypt.compareSync(password, existingUser[0].password)) {
+            const error = new Error('Wrong password');
+            error.status = 404;
+            throw error;
+        }
 
         user = {
             id: existingUser[0]._id
@@ -258,7 +261,6 @@ router.get('/image', authenticateToken, async (req, res, next) => {
 
 
 router.use((err, req, res, next) => {
-    console.log(err);
     res.status(err.status || 500).json({
         error: {
             message: err.message

@@ -28,6 +28,7 @@ const Login = props => {
   const [errorEmail, setErrorEmail] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     axios
@@ -80,6 +81,10 @@ const Login = props => {
                       my={2}
                       type='password'/>
 
+                      <Typography align="center" color="error">
+                        {message}
+                      </Typography>
+
                   </CardContent>
                 </Grid>
               <CardActions>
@@ -108,7 +113,7 @@ const Login = props => {
                             props.history.push("/sledz-ciaze");
                         }, 
                         err => {
-                            console.log(err.message);
+                            setMessage(err.response.status === 404 ? 'Zły email lub hasło' : 'Nasz serwery są chwilowo niedostępne');
                         });
                     }}>
                       Zaloguj się

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MainLayout from './Partials/MainLayout';
 import './css/Q_A.css';
 import data from './Data/Q_A-data';
-import { Grid, Typography, Box, Card, CardHeader, CardContent, Paper, TextField } from '@material-ui/core';
+import { Grid, Typography, Box, TextField } from '@material-ui/core';
 
 
 export default function Q_A(props) {
@@ -10,7 +10,6 @@ export default function Q_A(props) {
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        console.log('fdfs');
         const filteredData = data.filter(element => element.question.toLowerCase().includes( search.toLowerCase() ));
         setBoxes(filteredData);
     }, [search]);
