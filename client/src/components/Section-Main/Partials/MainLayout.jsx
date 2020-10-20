@@ -181,7 +181,7 @@ const MainLayout = props => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap>
-                    Moja Ciąża
+                    Będę mamą
                 </Typography>
                 <Box className='avatar'>
                     { user && user.photo ? 
