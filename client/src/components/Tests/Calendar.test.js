@@ -4,6 +4,6 @@ import { shallow, configure } from 'enzyme';
 import Calendar from "../Section-Main/Calendar";
 
 configure({adapter: new Adapter()});
-test('message box', ()=> {
+test('render', ()=> {
     shallow(<Calendar />);
 })
