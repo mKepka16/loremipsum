@@ -32,11 +32,12 @@ const Register = props => {
   const [weight, setWeight] = useState('');
   const [date, setDate] = useState(new Date('2020-09-11T12:00:00'));
   const [goodData, setGoodData] = useState(false);
+  const [message, setMessage] = useState('');
   
   useEffect(() => {
-    const condition = (errorEmail === false && login != '' && password != '' && firstName != '' && lastName != '' && age != '' && height != '' && weight != '');
+    const condition = (errorEmail === false && login !== '' && password !== '' && firstName !== '' && lastName !== '' && age !== '' && height !== '' && weight !== '');
 
-    if(condition != goodData)
+    if(condition !== goodData)
       setGoodData(condition);
   }, [login, errorEmail, password, firstName, lastName, age, height, weight])
 
@@ -64,8 +65,7 @@ const Register = props => {
         })
       })
       .catch(err => {
-        console.log(err);
-        // setMessage(err.response.data.error.message);
+        setMessage(err.response.status === 400 ? 'Użytkownik o podanym emailu już istnieje' : 'Nasz serwery są chwilowo niedostępne');
       });
   }
 
@@ -156,6 +156,11 @@ const Register = props => {
                     </Grid>
                   </Grid>
                 </Grid>
+
+                <Typography color="error" align="center">
+                  {message}
+                </Typography>
+
               </CardContent>
               <CardActions>
                 <Grid item xs={12}>

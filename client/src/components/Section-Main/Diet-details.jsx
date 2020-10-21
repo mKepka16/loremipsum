@@ -9,6 +9,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+
 export default function Diet_details(props) {
   const [open, setOpen] = React.useState(false);
 
@@ -20,6 +21,7 @@ export default function Diet_details(props) {
     setOpen(false);
   };
   return (
+
     <Grid item xs={4}>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
@@ -32,14 +34,16 @@ export default function Diet_details(props) {
           </Button>
         </DialogActions>
       </Dialog>
-
-      <Card onClick={handleClickOpen}>
-        <CardContent>
-          <Typography variant="h5" component="h2" align="center">
-            {props.title}
-          </Typography>
-        </CardContent>
-      </Card>
+      <a href="javascript:void(0)">
+        <Card onClick={handleClickOpen}>
+          <CardContent>
+            <Typography variant="h6" component="h2" align="center">
+              {props.title}
+            </Typography>
+          </CardContent>
+        </Card>
+      </a>
     </Grid>
+    
   );
 }

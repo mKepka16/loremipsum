@@ -46,7 +46,7 @@ router.post('/register', async (req, res, next) => {
 
         if (existingUser.length != 0) {
             const error = new Error('User is already registered');
-            error.status = 404;
+            error.status = 400;
             throw error;
         }
 
@@ -66,7 +66,7 @@ router.post('/register', async (req, res, next) => {
 
         const insertCursor = await req.collection.insertOne(newUser);
 
-        res.status(200).send({ newUser });
+        res.status(201).send({ newUser });
     }
     catch (err) {
         next(err);
@@ -94,8 +94,11 @@ router.post('/login', async (req, res, next) => {
             throw error;
         }
 
-        if (!bcrypt.compareSync(password, existingUser[0].password))
-            throw new Error('Wrong password');
+        if (!bcrypt.compareSync(password, existingUser[0].password)) {
+            const error = new Error('Wrong password');
+            error.status = 404;
+            throw error;
+        }
 
         user = {
             id: existingUser[0]._id
@@ -114,11 +117,6 @@ router.get('/user', authenticateToken, async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        if (id.length != 12 && id.length != 24) {
-            const error = new Error('Id has to be 12 or 24 chars long.');
-            error.status = 404;
-            throw error;
-        }
 
         const searchCursor = req.collection.find({
             _id: ObjectId(id)
@@ -149,12 +147,6 @@ router.put('/user', authenticateToken, async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        if (id.length != 12 && id.length != 24) {
-            const error = new Error('Id has to be 12 or 24 chars long.');
-            error.status = 404;
-            throw error;
-        }
-
         const updateCursor = await req.collection.updateOne({
             _id: ObjectId(id)
         }, {
@@ -242,12 +234,6 @@ router.get('/image', authenticateToken, async (req, res, next) => {
     const { id } = req.user;
 
     try {
-        if (id.length != 12 && id.length != 24) {
-            const error = new Error('Id has to be 12 or 24 chars long.');
-            error.status = 404;
-            throw error;
-        }
-
         const searchCursor = req.collection.find({
             _id: ObjectId(id)
         }, {
@@ -275,7 +261,6 @@ router.get('/image', authenticateToken, async (req, res, next) => {
 
 
 router.use((err, req, res, next) => {
-    console.log(err);
     res.status(err.status || 500).json({
         error: {
             message: err.message

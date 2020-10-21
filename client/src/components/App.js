@@ -14,7 +14,7 @@ import Preferences from "./Section-Main/Preferences";
 import Q_A from "./Section-Main/Q_A";
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("");
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
