@@ -2,3 +2,6 @@
     margin-top: 8px !important;
     padding-left: 10px;
 }
+.searchField {
+    float: right;
+}

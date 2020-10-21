@@ -30,7 +30,7 @@ export default function Diet_details(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Agree
+            Zamknij
           </Button>
         </DialogActions>
       </Dialog>
