@@ -10,7 +10,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import "moment/locale/pl";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import UserContext from '../../utilities/userContext';
+import UserContext from "../../utilities/userContext";
 // import events from "./Data/calendar-data";
 const localizer = momentLocalizer(moment);
 
@@ -48,9 +48,11 @@ export default function Calendary(props) {
   const [pregnancyStart, setPregnancyStart] = useState(null);
 
   useEffect(() => {
-      if(user) {
-          setPregnancyStart(moment(user.pregnancyStart.slice(0, 10), "YYYY MM DD").toDate());   
-      }
+    if (user) {
+      setPregnancyStart(
+        moment(user.pregnancyStart.slice(0, 10), "YYYY MM DD").toDate()
+      );
+    }
   }, [user]);
 
   const events = [
@@ -58,25 +60,67 @@ export default function Calendary(props) {
       start: pregnancyStart,
       end: pregnancyStart,
       title: "Początek ciąży",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed lacus nec mauris porta dignissim. Integer ligula risus, convallis a dolor sed, viverra consectetur velit. Phasellus ex felis, feugiat dignissim bibendum vitae, mattis sagittis augue. Quisque finibus odio at nisi auctor varius. In maximus dui et lorem scelerisque, quis vehicula dolor volutpat. Donec eu ex eu urna lobortis auctor. Aenean rhoncus egestas quam, nec semper turpis faucibus id. Quisque massa purus, imperdiet cursus iaculis ac, tempus vitae ligula.",
+      description: "Początek ciąży, to będą twoje najlepsze 9 miesięcy!",
       color: "red",
     },
     {
-      start: moment().add(10, "days").toDate(),
-      end: moment().add(14, "days").toDate(),
-      title: "Pierwsze USG",
+      start: pregnancyStart,
+      end: moment(pregnancyStart).add(12, "weeks").toDate(),
+      title: "Pierwsze badanie",
       description:
-        "Praesent vitae felis enim. Sed diam ante, lacinia a metus a, efficitur blandit turpis. Aliquam justo libero, consequat id nunc a, molestie ultrices metus. Vivamus cursus, arcu nec rutrum pulvinar, nibh ante molestie tellus, tristique dictum ante nibh nec ipsum. Maecenas iaculis suscipit ante nec commodo.",
+        "W tym terminie powinnaś zrobić pierwsze badanie. Obejmuje ono m.in dokładne badanie ciężarnej, określenie grupy krwi i czynnika Rh, przeprowadzenie wywiadu położniczego.",
       color: "green",
     },
     {
-      start: moment().add(2, "days").toDate(),
-      end: moment().add(5, "days").toDate(),
-      title: "Badanie krwi",
+      start: moment(pregnancyStart).add(17, "weeks").toDate(),
+      end: moment(pregnancyStart).add(20, "weeks").toDate(),
+      title: "Drugie badanie",
       description:
-        "Nullam ac lectus gravida, vestibulum nunc quis, eleifend arcu. Phasellus mollis a nisl nec placerat. Sed id purus ac turpis varius posuere. Suspendisse semper nibh elit, quis bibendum metus placerat egestas. Nunc eu elementum felis. Duis quis quam ornare, bibendum est vitae, eleifend nunc",
-      color: "yellow",
+        "W tym okresie powinnaś zgłosić się do lekarza w celu zbadania ciąży, łącznie z badaniem ogólnym (badanie internistyczne).",
+      color: "CornflowerBlue",
+    },
+    {
+      start: moment(pregnancyStart).add(25, "weeks").toDate(),
+      end: moment(pregnancyStart).add(28, "weeks").toDate(),
+      title: "Trzecie badanie",
+      description:
+        "W tym okresie powinnaś zgłosić się do lekarza w celu zbadania ciąży, oraz zbadania krwi.",
+      color: "red",
+    },
+    {
+      start: moment(pregnancyStart).add(30, "weeks").toDate(),
+      end: moment(pregnancyStart).add(34, "weeks").toDate(),
+      title: "Czwarte badanie",
+      description: "Kontrolne badanie ciąży.",
+      color: "purple",
+    },
+    {
+      start: moment(pregnancyStart).add(35, "weeks").toDate(),
+      end: moment(pregnancyStart).add(38, "weeks").toDate(),
+      title: "Piąte badanie",
+      description: "Kontrolne badanie.",
+      color: "Gold",
+    },
+    {
+      start: moment(pregnancyStart).add(40, "weeks").toDate(),
+      end: moment(pregnancyStart).add(41, "weeks").toDate(),
+      title: "Oczekiwanie narodzin dziecka!",
+      description: "Zdrowia, szczęścia, pomyślności",
+      color: "pink",
+    },
+    {
+      start: moment(pregnancyStart).add(16, "weeks").toDate(),
+      end: moment(pregnancyStart).add(20, "weeks").toDate(),
+      title: "Dodatkowe badanie USG",
+      description: "Można wykonać dodatkowe badanie USG",
+      color: "Wheat",
+    },
+    {
+      start: moment(pregnancyStart).add(30, "weeks").toDate(),
+      end: moment(pregnancyStart).add(34, "weeks").toDate(),
+      title: "Dodatkowe badanie USG",
+      description: "Można wykonać dodatkowe badanie USG",
+      color: "Wheat",
     },
   ];
 
