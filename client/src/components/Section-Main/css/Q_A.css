@@ -2,3 +2,11 @@
     margin-top: 8px !important;
     padding-left: 10px;
 }
+
+.add-question-button {
+    margin: 18px !important;
+}
+
+.error-message {
+    margin-top: 18px !important;
+}
