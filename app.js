@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { mongoURI } = require('./config/keys');
 const fileUpload = require('express-fileupload');
+const nodemailer = require('nodemailer');
 
 //Router init
 const router = express.Router();
@@ -161,6 +162,41 @@ router.put('/user', authenticateToken, async (req, res, next) => {
     }
 });
 
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'michal.kepka16',
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
+
+router.post('/user-question', authenticateToken, async (req, res, next) => {
+    const { question } = req.body;
+    
+    const mailOptions = {
+        from: 'michal.kepka16@gmail.com',
+        to: 'michal.kepka16@gmail.com',
+        subject: 'New question from user.',
+        text: `Question: ${question}`,
+        html: `<h3>New question proposal</h3><hr/><p>Question: <span style="color: #3f51b5;">${question}</span></p>`
+        // attachments: [{
+        //     filename: '1.jpg',
+        //     path: './photos/1.jpg',
+        //     cid: 'img1' //same cid value as in the html img src
+        // }]
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            next(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.sendStatus(204);
+            req.client.close();
+        }
+    });
+});
+
 router.post('/auth', authenticateToken, (req, res, next) => {
     res.sendStatus(200);
 });
@@ -261,6 +297,7 @@ router.get('/image', authenticateToken, async (req, res, next) => {
 
 
 router.use((err, req, res, next) => {
+    console.log(err);
     res.status(err.status || 500).json({
         error: {
             message: err.message

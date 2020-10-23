@@ -110,7 +110,8 @@ const MainLayout = props => {
                 alignItems="center"
                 justifyContent="flex-end"
                 pr={2}>
-                <TollSharpIcon color="primary" fontSize="large"/>
+                {/* <TollSharpIcon color="primary" fontSize="large"/> */}
+                <img src="./photos/logo.svg" height="45" width="45"/>
             </Box>
             <Divider />
             <List>
