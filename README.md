@@ -1,5 +1,6 @@
 # Bedę Mamą
-![](https://github.com/mKepka16/loremipsum/blob/main/client/public/photos/logo.svg =250x)
+<img src="https://github.com/mKepka16/loremipsum/blob/main/client/public/photos/logo.svg" alt="drawing" width="200"/>
+
 Aplikacja na konkurs **HackHeroes** stworzona przez zespół **loremipsum**.
 
 ## Jak uruchomić aplikację?
