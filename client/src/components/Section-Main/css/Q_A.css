@@ -5,4 +5,12 @@
 .searchField {
     float: right;
 }
+
+.add-question-button {
+    margin: 18px !important;
+}
+
+.error-message {
+    margin-top: 18px !important;
+} 
   
