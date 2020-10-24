@@ -3,7 +3,10 @@
 
 Aplikacja na konkurs **HackHeroes** stworzona przez zespół **loremipsum**.
 
-## Jak uruchomić aplikację?
+## Zobacz naszą aplikację online!
+[Strona www](https://loremipsum-hackheroes.herokuapp.com/).
+
+## Jak uruchomić aplikację lokalnie?
 Aby uruchomić aplikację **Bedę Mamą** należy pobrać [node.js](https://nodejs.org/en/) i kod źródłowy z brancha main.
 
 Aby przygotować projekt do uruchowienia przejdź w terminalu do folderu z pobranym kodem źródłowym, a następnie wpisz kolejno komendy:
