@@ -17,15 +17,15 @@ function createData(vitamin, dose4, dose, func) {
 
 const rows = [
   createData("A - Retinol", "1,3 mg", "2,2 mg", "zwiększa odporność organizmu na infekcje"),
-  createData("D - Kalciferol", "10 ug", "10 ug", "wspomaga przyswajanie wapni i fosforu"),
+  createData("D - Kalciferol", "10 ug", "10 ug", "wspomaga przyswajanie wapnia i fosforu"),
   createData("E - Tokoferol", "15 mg", "19 mg", "wpływa na elastyczność tkanki łącznej"),
   createData("B1 - Tiamina", "2,1 mg", "2,4 mg", "wspomaga przemianę węglowodanów"),
   createData("B2-Ryboflawina", "2,4 mg", "2,9 mg", "znacznie wpływa na przemianę materii"),
-  createData("PP Niacyna - kwas nikotynowy", "17 mg", "20 mg", "bierze udział w przemianie białko-tłuszczowej-węglowodanowej"),
-  createData("B6 - Fosforan pirydoksalu", "3,3 mg", "2,8 mg", "ważna dla przemiany białkowej, tworzenia krwi"),
-  createData("Kwas foliowy", "1600 ug", "1200 ug", "ważne dla tworzenia krwi"),
-  createData("Kwas pantotenowy", "14 mg", "15 mg", "ważne dla przemiany tłuszczów"),
-  createData("B12 Cyjanokobalamina", "6 ug", "6 ug", "ważne dla odbudowy komórek i powstawania krwi"),
+  createData("PP Niacyna - kwas nikotynowy", "17 mg", "20 mg", "bierze udział w przemianie białka, tłuszczu i węglowodanów"),
+  createData("B6 - Fosforan pirydoksalu", "3,3 mg", "2,8 mg", "ważna dla przemiany białkowej i tworzenia krwi"),
+  createData("Kwas foliowy", "1600 ug", "1200 ug", "ważny dla tworzenia krwi"),
+  createData("Kwas pantotenowy", "14 mg", "15 mg", "ważny dla przemiany tłuszczów"),
+  createData("B12 Cyjanokobalamina", "6 ug", "6 ug", "ważna dla odbudowy komórek i powstawania krwi"),
   createData("C - kwas askorbinowy", "143 mg", "178 mg", "wzmacnia siły obronne organizmu"),
 ];
 export default function Diet(props) {
@@ -45,7 +45,7 @@ export default function Diet(props) {
                 {"> 4 miesiąc ciąży"}
               </TableCell>
               <TableCell align="right">Kobiety karmiące</TableCell>
-              <TableCell align="center">Funckje witamin</TableCell>
+              <TableCell align="center">Funkcje witamin</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

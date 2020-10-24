@@ -60,16 +60,16 @@ export default function Calendary(props) {
       start: pregnancyStart,
       end: pregnancyStart,
       title: "Początek ciąży",
-      description: "Początek ciąży, to będą twoje najlepsze 9 miesięcy!",
-      color: "red",
+      description: "Początek ciąży.",
+      color: "#f44336",
     },
     {
       start: pregnancyStart,
       end: moment(pregnancyStart).add(12, "weeks").toDate(),
       title: "Pierwsze badanie",
       description:
-        "W tym terminie powinnaś zrobić pierwsze badanie. Obejmuje ono m.in dokładne badanie ciężarnej, określenie grupy krwi i czynnika Rh, przeprowadzenie wywiadu położniczego.",
-      color: "green",
+        "W tym terminie powinnaś zrobić pierwsze badanie. Obejmuje ono m.in dokładne badanie ciężarnej, określenie grupy krwi i czynnika Rh oraz przeprowadzenie wywiadu położniczego.",
+      color: "#4caf50",
     },
     {
       start: moment(pregnancyStart).add(17, "weeks").toDate(),
@@ -77,7 +77,7 @@ export default function Calendary(props) {
       title: "Drugie badanie",
       description:
         "W tym okresie powinnaś zgłosić się do lekarza w celu zbadania ciąży, łącznie z badaniem ogólnym (badanie internistyczne).",
-      color: "CornflowerBlue",
+      color: "#2196f3",
     },
     {
       start: moment(pregnancyStart).add(25, "weeks").toDate(),
@@ -85,42 +85,42 @@ export default function Calendary(props) {
       title: "Trzecie badanie",
       description:
         "W tym okresie powinnaś zgłosić się do lekarza w celu zbadania ciąży, oraz zbadania krwi.",
-      color: "red",
+      color: "#f44336",
     },
     {
       start: moment(pregnancyStart).add(30, "weeks").toDate(),
       end: moment(pregnancyStart).add(34, "weeks").toDate(),
       title: "Czwarte badanie",
       description: "Kontrolne badanie ciąży.",
-      color: "purple",
+      color: "#673ab7",
     },
     {
       start: moment(pregnancyStart).add(35, "weeks").toDate(),
       end: moment(pregnancyStart).add(38, "weeks").toDate(),
       title: "Piąte badanie",
-      description: "Kontrolne badanie.",
-      color: "Gold",
+      description: "Kontrolne badanie ciąży.",
+      color: "#4caf50",
     },
     {
       start: moment(pregnancyStart).add(40, "weeks").toDate(),
       end: moment(pregnancyStart).add(41, "weeks").toDate(),
       title: "Oczekiwanie narodzin dziecka!",
-      description: "Zdrowia, szczęścia, pomyślności",
-      color: "pink",
+      description: "Zdrowia, szczęścia, pomyślności.",
+      color: "#f06292",
     },
     {
       start: moment(pregnancyStart).add(16, "weeks").toDate(),
       end: moment(pregnancyStart).add(20, "weeks").toDate(),
       title: "Dodatkowe badanie USG",
       description: "Można wykonać dodatkowe badanie USG",
-      color: "Wheat",
+      color: "#ff9800",
     },
     {
       start: moment(pregnancyStart).add(30, "weeks").toDate(),
       end: moment(pregnancyStart).add(34, "weeks").toDate(),
       title: "Dodatkowe badanie USG",
       description: "Można wykonać dodatkowe badanie USG",
-      color: "Wheat",
+      color: "#ff9800",
     },
   ];
 
