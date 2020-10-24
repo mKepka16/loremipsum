@@ -165,17 +165,17 @@ router.put('/user', authenticateToken, async (req, res, next) => {
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'michal.kepka16',
+        user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
     }
 });
 
 router.post('/user-question', authenticateToken, async (req, res, next) => {
     const { question } = req.body;
-    
+
     const mailOptions = {
-        from: 'michal.kepka16@gmail.com',
-        to: 'michal.kepka16@gmail.com',
+        from: process.env.EMAIL,
+        to: process.env.EMAIL,
         subject: 'New question from user.',
         text: `Question: ${question}`,
         html: `<h3>New question proposal</h3><hr/><p>Question: <span style="color: #3f51b5;">${question}</span></p>`

@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useState } from 'react';
 import Axios from 'axios';
 import AvatarUpload from './Partials/AvatarUpload';
+import Footer from './Partials/Footer';
 
 const styles = theme => ({
     root: {
@@ -214,6 +215,8 @@ function Preferences(props) {
                 </Grid>
                 <Grid item xs={1} md={3}/>
             </Grid>
+
+            <Footer />
         </MainLayout>
     )
 }
