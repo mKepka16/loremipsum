@@ -4,10 +4,10 @@ Aplikacja na konkurs HackHeroes
 ## Jak uruchomić aplikacje?
 Aby uruchomić aplikacje "Bedę Mamą" należy pobrać node.js i kod źródłowy z brancha main.
 Aby przygotować projekt do uruchowienia w pobranym pliku wpisz kolejno komendy:
-  npm install
-  cd client
-  npm install
-  cd ../
+* npm install
+* cd client
+* npm install
+* cd ../
   
 Następnie, aby uruchomić strone, wpisz komendę:
   npm run dev
