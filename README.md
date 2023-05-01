@@ -3,9 +3,6 @@
 
 Aplikacja na konkurs **HackHeroes** stworzona przez zespół **loremipsum**.
 
-## Zobacz naszą aplikację online!
-Aplikację **Będę mamą** możesz zobaczyć już teraz [tutaj](https://loremipsum-hackheroes.herokuapp.com/).
-
 ## Jak uruchomić aplikację lokalnie?
 Aby uruchomić aplikację **Bedę Mamą** należy pobrać [node.js](https://nodejs.org/en/) i kod źródłowy z brancha _main_.
 
